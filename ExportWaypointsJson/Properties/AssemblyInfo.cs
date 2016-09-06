@@ -38,6 +38,8 @@ using System.Runtime.InteropServices;
 // 2016-09-06 2017.0.0.0 initial Revit add-in skeleton
 // 2016-09-06 2017.0.0.1 added Newtonsoft.Json nuget package
 // 2016-09-06 2017.0.0.2 started implementeing ribbon panel and options
-
+// 2016-09-06 2017.0.0.2 implemented settings form text field input validation
+// 2016-09-06 2017.0.0.2 implemented settings storage in both XML and JSOPN
+//
 [assembly: AssemblyVersion( "2017.0.0.2" )]
 [assembly: AssemblyFileVersion( "2017.0.0.2" )]
