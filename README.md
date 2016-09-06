@@ -4,7 +4,7 @@ A C# .NET Revit add-in to export exit path guide waypoints to JSON for Hololens 
 
 This project is part of [Kean Walmsley's Hololens project](http://through-the-interface.typepad.com/through_the_interface/hololens) and our entry to the Autodesk Hackathon:
 
-- [My entry for Autodesk’s first Global Hackathon: a HoloLens-based tool for navigating low visibility environment](http://through-the-interface.typepad.com/through_the_interface/2016/08/my-entry-for-autodesks-first-global-hackathon-a-hololens-based-tool-for-navigating-low-visibility-environments.html)
+- [Autodesk’s first global hackathon entry: a HoloLens-based tool for navigating low visibility environment](http://through-the-interface.typepad.com/through_the_interface/2016/08/my-entry-for-autodesks-first-global-hackathon-a-hololens-based-tool-for-navigating-low-visibility-environments.html)
 - [Using HoloLens to display diagnostic information for building components](http://through-the-interface.typepad.com/through_the_interface/2016/08/using-hololens-to-display-diagnostic-information-for-building-components.html)
 - [Scaling our Unity model in HoloLens](http://through-the-interface.typepad.com/through_the_interface/2016/08/scaling-our-unity-model-in-hololens.html)
 - [Adding spatial sound to our Unity model in HoloLens](http://through-the-interface.typepad.com/through_the_interface/2016/08/adding-spatial-sound-to-our-unity-model-in-hololens-part-3.html)
