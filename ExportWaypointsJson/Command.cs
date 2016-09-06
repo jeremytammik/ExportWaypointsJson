@@ -1,5 +1,5 @@
 #region Namespaces
-using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Autodesk.Revit.ApplicationServices;
@@ -12,9 +12,24 @@ using Newtonsoft.Json;
 
 namespace ExportWaypointsJson
 {
-  [Transaction( TransactionMode.Manual )]
+  [Transaction( TransactionMode.ReadOnly )]
   public class Command : IExternalCommand
   {
+    const string _please_select_model_curve = "Please select a single model curve representing the exist path";
+
+    class CurveSelectionFilter : ISelectionFilter
+    {
+      public bool AllowElement( Element e )
+      {
+        return e is ModelCurve;
+      }
+
+      public bool AllowReference( Reference r, XYZ p )
+      {
+        return true;
+      }
+    }
+
     public Result Execute(
       ExternalCommandData commandData,
       ref string message,
@@ -24,32 +39,43 @@ namespace ExportWaypointsJson
       UIDocument uidoc = uiapp.ActiveUIDocument;
       Application app = uiapp.Application;
       Document doc = uidoc.Document;
+      ModelCurve curve = null;
 
       // Access current selection
 
       Selection sel = uidoc.Selection;
+      ICollection<ElementId> ids = sel.GetElementIds();
+      int n = ids.Count;
 
-      // Retrieve elements from database
-
-      FilteredElementCollector col
-        = new FilteredElementCollector( doc )
-          .WhereElementIsNotElementType()
-          .OfCategory( BuiltInCategory.INVALID )
-          .OfClass( typeof( Wall ) );
-
-      // Filtered element collector is iterable
-
-      foreach( Element e in col )
+      if( 0 == n )
       {
-        Debug.Print( e.Name );
+        try
+        {
+          Reference r = sel.PickObject( ObjectType.Element,
+            new CurveSelectionFilter(),
+            "Please pick a model curve to represent the exit path" );
+
+          curve = doc.GetElement( r.ElementId ) as ModelCurve;
+        }
+        catch( Autodesk.Revit.Exceptions.OperationCanceledException )
+        {
+          message = "No element selected";
+          return Result.Cancelled;
+        }
       }
-
-      // Modify document within a transaction
-
-      using( Transaction tx = new Transaction( doc ) )
+      else
       {
-        tx.Start( "Transaction Name" );
-        tx.Commit();
+        if( 1 == n )
+        {
+          curve = doc.GetElement(
+            ids.First<ElementId>() )
+              as ModelCurve;
+        }
+        if( null == curve )
+        {
+          message = _please_select_model_curve;
+          return Result.Failed;
+        }
       }
 
       return Result.Succeeded;

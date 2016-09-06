@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace ExportWaypointsJson
 {
-  [Transaction( TransactionMode.Manual )]
+  [Transaction( TransactionMode.ReadOnly )]
   public class CmdSettings : IExternalCommand
   {
     public Result Execute(
