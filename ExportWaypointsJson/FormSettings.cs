@@ -7,19 +7,27 @@ namespace ExportWaypointsJson
 {
   public partial class FormSettings : Form
   {
+    bool _use_xml_config_settings = true;
+    bool _use_json_settings = true;
+
     Settings _settings;
 
     public FormSettings()
     {
-      _settings = Settings.Load();
-
       InitializeComponent();
 
-      txtIpAddress.Text = Properties.Settings.Default
-        .IpAddress;
+      if( _use_xml_config_settings )
+      {
+        txtIpAddress.Text = Properties.Settings.Default
+          .IpAddress;
 
-      txtDistance.Text = Properties.Settings.Default
-        .DistanceInMeters.ToString( "0.##" );
+        txtDistance.Text = Properties.Settings.Default
+          .DistanceInMeters.ToString( "0.##" );
+      }
+      if(_use_json_settings )
+      {
+        _settings = Settings.Load();
+      }
 
       txtIpAddress.Validating += TxtIpAddress_Validating;
       txtIpAddress.Validated += TxtIpAddress_Validated;
@@ -89,17 +97,23 @@ namespace ExportWaypointsJson
       object sender,
       EventArgs e )
     {
-      Properties.Settings.Default.IpAddress 
-        = txtIpAddress.Text;
+      if( _use_xml_config_settings )
+      {
+        Properties.Settings.Default.IpAddress
+          = txtIpAddress.Text;
 
-      Properties.Settings.Default.DistanceInMeters 
-        = double.Parse( txtDistance.Text );
+        Properties.Settings.Default.DistanceInMeters
+          = double.Parse( txtDistance.Text );
 
-      Properties.Settings.Default.Save();
+        Properties.Settings.Default.Save();
+      }
 
-      _settings.IpAddress = txtIpAddress.Text;
-      _settings.DistanceInMetres = double.Parse( txtDistance.Text );
-      _settings.Save();
+      if( _use_json_settings )
+      {
+        _settings.IpAddress = txtIpAddress.Text;
+        _settings.DistanceInMetres = double.Parse( txtDistance.Text );
+        _settings.Save();
+      }
     }
   }
 }

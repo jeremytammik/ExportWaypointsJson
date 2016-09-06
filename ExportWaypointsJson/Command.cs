@@ -1,13 +1,14 @@
 #region Namespaces
 using System.Linq;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 using Newtonsoft.Json;
+using System.IO;
+using System.Web.Script.Serialization;
 #endregion
 
 namespace ExportWaypointsJson
@@ -15,6 +16,8 @@ namespace ExportWaypointsJson
   [Transaction( TransactionMode.ReadOnly )]
   public class Command : IExternalCommand
   {
+    const string _exit_path_filename = "exitpath.json";
+
     const string _please_select_model_curve = "Please select a single model curve representing the exist path";
 
     class CurveSelectionFilter : ISelectionFilter
@@ -39,10 +42,10 @@ namespace ExportWaypointsJson
       UIDocument uidoc = uiapp.ActiveUIDocument;
       Application app = uiapp.Application;
       Document doc = uidoc.Document;
-      ModelCurve curve = null;
 
-      // Access current selection
+      // Select model curve representing exit path.
 
+      ModelCurve model_curve = null;
       Selection sel = uidoc.Selection;
       ICollection<ElementId> ids = sel.GetElementIds();
       int n = ids.Count;
@@ -55,7 +58,7 @@ namespace ExportWaypointsJson
             new CurveSelectionFilter(),
             "Please pick a model curve to represent the exit path" );
 
-          curve = doc.GetElement( r.ElementId ) as ModelCurve;
+          model_curve = doc.GetElement( r.ElementId ) as ModelCurve;
         }
         catch( Autodesk.Revit.Exceptions.OperationCanceledException )
         {
@@ -67,16 +70,28 @@ namespace ExportWaypointsJson
       {
         if( 1 == n )
         {
-          curve = doc.GetElement(
+          model_curve = doc.GetElement(
             ids.First<ElementId>() )
               as ModelCurve;
         }
-        if( null == curve )
+        if( null == model_curve )
         {
           message = _please_select_model_curve;
           return Result.Failed;
         }
       }
+
+      Curve curve = model_curve.GeometryCurve;
+
+      IList<XYZ> pts = curve.Tessellate();
+      string path = Path.Combine( App.Path, _exit_path_filename );
+      File.WriteAllText( path, 
+        ( new JavaScriptSerializer() ).Serialize( 
+          pts ) );
+
+      TaskDialog.Show( App.Caption, string.Format( 
+        "Exported {0} waypoints to {1}.",
+        pts.Count, path ) );
 
       return Result.Succeeded;
     }

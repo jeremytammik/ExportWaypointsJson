@@ -41,6 +41,7 @@ using System.Runtime.InteropServices;
 // 2016-09-06 2017.0.0.2 implemented settings form text field input validation
 // 2016-09-06 2017.0.0.2 implemented settings storage in both XML and JSOPN
 // 2016-09-06 2017.0.0.3 implemented exit path model curve selection
+// 2016-09-06 2017.0.0.4 implemented exit path model curve tesselation and export to JSON file
 //
-[assembly: AssemblyVersion( "2017.0.0.3" )]
-[assembly: AssemblyFileVersion( "2017.0.0.3" )]
+[assembly: AssemblyVersion( "2017.0.0.4" )]
+[assembly: AssemblyFileVersion( "2017.0.0.4" )]

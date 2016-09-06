@@ -29,6 +29,18 @@ namespace ExportWaypointsJson
       get { return _app; }
     }
 
+    /// <summary>
+    /// Return the full add-in assembly folder path.
+    /// </summary>
+    public static string Path
+    {
+      get
+      {
+        return System.IO.Path.GetDirectoryName( 
+          Assembly.GetExecutingAssembly().Location );
+      }
+    }
+
     #region Create Ribbon Tab
     /// <summary>
     /// Load a new icon bitmap from embedded resources.
