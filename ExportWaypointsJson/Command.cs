@@ -14,9 +14,14 @@ using System.Diagnostics;
 
 namespace ExportWaypointsJson
 {
-  [Transaction( TransactionMode.ReadOnly )]
+  [Transaction( TransactionMode.Manual )]
   public class Command : IExternalCommand
   {
+    /// <summary>
+    /// Place text note markers along the escape path waypoints?
+    /// </summary>
+    static bool _create_waypoint_markers = true;
+
     const string _exit_path_filename = "exitpath.json";
 
     const string _please_select_model_curve = "Please select a single model curve representing the exist path";
@@ -46,6 +51,11 @@ namespace ExportWaypointsJson
       UIDocument uidoc = uiapp.ActiveUIDocument;
       Application app = uiapp.Application;
       Document doc = uidoc.Document;
+      View view = uidoc.ActiveView;
+
+      bool create_waypoint_markers 
+        = _create_waypoint_markers 
+        && view is ViewPlan;
 
       // Select model curve representing exit path.
 
@@ -103,10 +113,38 @@ namespace ExportWaypointsJson
       double tend = curve.GetEndParameter( 1 );
       d = ( tend - t ) / nPoints;
 
-      for( ; t < tend; t += d )
+      using( Transaction tx = new Transaction( doc ) )
       {
-        pts.Add( new XyzInMetres( 
-          curve.Evaluate( t, false ) ) );
+        ElementId textNoteTypeId
+          = ElementId.InvalidElementId;
+
+        if( _create_waypoint_markers )
+        {
+          tx.Start( "Create waypoint markers" );
+
+          textNoteTypeId 
+            = new FilteredElementCollector( doc )
+              .OfClass( typeof( TextNoteType ) )
+              .FirstElementId();
+        }
+
+        int i = 0;
+
+        for( ; t < tend; t += d )
+        {
+          XYZ p_in_feet = curve.Evaluate( t, false );
+
+          if( _create_waypoint_markers )
+          {
+            TextNote.Create( doc, view.Id, p_in_feet,
+              ( ++i ).ToString(), textNoteTypeId );
+          }
+          pts.Add( new XyzInMetres( p_in_feet ) );
+        }
+        if( _create_waypoint_markers )
+        {
+          tx.Commit();
+        }
       }
 
       // Register the custom converter to output 
@@ -121,12 +159,14 @@ namespace ExportWaypointsJson
       //  new JavaScriptConverter[] {
       //    new TwoDecimalPlacesConverter() } );
 
-      string path = Path.Combine( App.Path, _exit_path_filename );
-      File.WriteAllText( path, 
-        ( new JavaScriptSerializer() ).Serialize( 
+      string path = Path.Combine( App.Path, 
+        _exit_path_filename );
+
+      File.WriteAllText( path,
+        ( new JavaScriptSerializer() ).Serialize(
           pts ) );
 
-      TaskDialog.Show( App.Caption, string.Format( 
+      TaskDialog.Show( App.Caption, string.Format(
         "Exported {0} waypoints to {1}.",
         pts.Count, path ) );
 
