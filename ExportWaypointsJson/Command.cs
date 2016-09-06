@@ -37,37 +37,6 @@ namespace ExportWaypointsJson
       }
     }
 
-    /// <summary>
-    /// JavaScriptSerializer converter to truncate 
-    /// double XYZ coordinates to two decimal places.
-    /// </summary>
-    class TwoDecimalPlacesConverter : JavaScriptConverter
-    {
-      public override IEnumerable<Type> SupportedTypes
-      {
-        get
-        {
-          return new Type[] { typeof( double )};
-        }
-      }
-
-      public override object Deserialize( 
-        IDictionary<string, object> dictionary,
-        Type type,
-        JavaScriptSerializer serializer )
-      {
-        throw new NotImplementedException();
-      }
-
-      public override IDictionary<string, object> Serialize( 
-        object obj, 
-        JavaScriptSerializer serializer )
-      {
-        Debug.Assert( obj is double, "only support double" );
-        throw new NotImplementedException();
-      }
-    }
-
     public Result Execute(
       ExternalCommandData commandData,
       ref string message,
@@ -123,15 +92,12 @@ namespace ExportWaypointsJson
 
       double length = curve.ApproximateLength;
 
-      double convert_inch_to_cm = 2.54;
-      double convert_feet_to_metre = 0.01 * 12 * convert_inch_to_cm;
-
-      double length_m = length * convert_feet_to_metre;
+      double length_m = length * XyzInMetres.convert_feet_to_metre;
       double d = Settings.Load().DistanceInMetres;
 
       int nPoints = (int) ( ( length_m / d ) + 1 );
 
-      List<XYZ> pts = new List<XYZ>( nPoints );
+      List<XyzInMetres> pts = new List<XyzInMetres>( nPoints );
 
       double t = curve.GetEndParameter( 0 );
       double tend = curve.GetEndParameter( 1 );
@@ -139,10 +105,9 @@ namespace ExportWaypointsJson
 
       for( ; t < tend; t += d )
       {
-        pts.Add( curve.Evaluate( t, false ) );
+        pts.Add( new XyzInMetres( 
+          curve.Evaluate( t, false ) ) );
       }
-
-      JavaScriptSerializer serializer = new JavaScriptSerializer();
 
       // Register the custom converter to output 
       // XYZ points truncated to two decimal places.
@@ -151,9 +116,10 @@ namespace ExportWaypointsJson
       // http://stackoverflow.com/questions/12283070/serializing-a-decimal-to-json-how-to-round-off
       // It will not work.
 
-      serializer.RegisterConverters( 
-        new JavaScriptConverter[] {
-          new TwoDecimalPlacesConverter() } );
+      //JavaScriptSerializer serializer = new JavaScriptSerializer();
+      //serializer.RegisterConverters( 
+      //  new JavaScriptConverter[] {
+      //    new TwoDecimalPlacesConverter() } );
 
       string path = Path.Combine( App.Path, _exit_path_filename );
       File.WriteAllText( path, 

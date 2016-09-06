@@ -46,6 +46,7 @@ using System.Runtime.InteropServices;
 // 2016-09-06 2017.0.0.5 removed unused Newtonsoft.Json nuget package
 // 2016-09-06 2017.0.0.6 implemented properly spaced waypoints according to the distance in metres defined in the user settings
 // 2016-09-06 2017.0.0.7 first erroneous attempt to serialise XYZ output coordinates truncated to two decimal places
+// 2016-09-06 2017.0.0.8 implemented XyzInMetres with two-digit coordinates
 //
-[assembly: AssemblyVersion( "2017.0.0.7" )]
-[assembly: AssemblyFileVersion( "2017.0.0.7" )]
+[assembly: AssemblyVersion( "2017.0.0.8" )]
+[assembly: AssemblyFileVersion( "2017.0.0.8" )]
