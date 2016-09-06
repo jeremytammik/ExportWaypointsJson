@@ -44,6 +44,7 @@ using System.Runtime.InteropServices;
 // 2016-09-06 2017.0.0.4 implemented exit path model curve tesselation and export to JSON file
 // 2016-09-06 2017.0.0.5 set copy local to false on AdWindows.dll
 // 2016-09-06 2017.0.0.5 removed unused Newtonsoft.Json nuget package
+// 2016-09-06 2017.0.0.6 implemented properly spaced waypoints according to the distance in metres defined in the user settings
 //
-[assembly: AssemblyVersion( "2017.0.0.5" )]
-[assembly: AssemblyFileVersion( "2017.0.0.5" )]
+[assembly: AssemblyVersion( "2017.0.0.6" )]
+[assembly: AssemblyFileVersion( "2017.0.0.6" )]

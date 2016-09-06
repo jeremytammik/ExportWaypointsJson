@@ -1,4 +1,5 @@
 #region Namespaces
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -82,7 +83,30 @@ namespace ExportWaypointsJson
 
       Curve curve = model_curve.GeometryCurve;
 
-      IList<XYZ> pts = curve.Tessellate();
+      // Tessellate returns 377 points for our sample spline curve.
+      //IList<XYZ> pts = curve.Tessellate();
+
+      double length = curve.ApproximateLength;
+
+      double convert_inch_to_cm = 2.54;
+      double convert_feet_to_metre = 0.01 * 12 * convert_inch_to_cm;
+
+      double length_m = length * convert_feet_to_metre;
+      double d = Settings.Load().DistanceInMetres;
+
+      int nPoints = (int) ( ( length_m / d ) + 1 );
+
+      List<XYZ> pts = new List<XYZ>( nPoints );
+
+      double t = curve.GetEndParameter( 0 );
+      double tend = curve.GetEndParameter( 1 );
+      d = ( tend - t ) / nPoints;
+
+      for( ; t < tend; t += d )
+      {
+        pts.Add( curve.Evaluate( t, false ) );
+      }
+
       string path = Path.Combine( App.Path, _exit_path_filename );
       File.WriteAllText( path, 
         ( new JavaScriptSerializer() ).Serialize( 
@@ -93,6 +117,11 @@ namespace ExportWaypointsJson
         pts.Count, path ) );
 
       return Result.Succeeded;
+    }
+
+    private int Math( double v )
+    {
+      throw new NotImplementedException();
     }
   }
 }
