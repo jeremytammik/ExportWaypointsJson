@@ -5,6 +5,7 @@ using System.Reflection;
 using Autodesk.Revit.UI;
 using System.Windows.Media.Imaging;
 using System.IO;
+using System.Web.Script.Serialization;
 #endregion
 
 namespace ExportWaypointsJson
@@ -28,6 +29,7 @@ namespace ExportWaypointsJson
       get { return _app; }
     }
 
+    #region Create Ribbon Tab
     /// <summary>
     /// Load a new icon bitmap from embedded resources.
     /// For the BitmapImage, make sure you reference WindowsBase
@@ -128,7 +130,7 @@ namespace ExportWaypointsJson
       IList<PushButton> sbList = split_button.GetItems();
       split_button.CurrentButton = sbList[0];
     }
-
+    #endregion // Create Ribbon Tab
 
     public Result OnStartup( UIControlledApplication a )
     {

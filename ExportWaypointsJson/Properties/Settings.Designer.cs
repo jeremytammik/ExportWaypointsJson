@@ -25,7 +25,7 @@ namespace ExportWaypointsJson.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.0.0.1")]
         public string IpAddress {
             get {
                 return ((string)(this["IpAddress"]));
@@ -37,7 +37,7 @@ namespace ExportWaypointsJson.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1.2")]
         public double DistanceInMeters {
             get {
                 return ((double)(this["DistanceInMeters"]));
