@@ -118,10 +118,5 @@ namespace ExportWaypointsJson
 
       return Result.Succeeded;
     }
-
-    private int Math( double v )
-    {
-      throw new NotImplementedException();
-    }
   }
 }
