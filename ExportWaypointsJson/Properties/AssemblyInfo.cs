@@ -45,6 +45,7 @@ using System.Runtime.InteropServices;
 // 2016-09-06 2017.0.0.5 set copy local to false on AdWindows.dll
 // 2016-09-06 2017.0.0.5 removed unused Newtonsoft.Json nuget package
 // 2016-09-06 2017.0.0.6 implemented properly spaced waypoints according to the distance in metres defined in the user settings
+// 2016-09-06 2017.0.0.7 first erroneous attempt to serialise XYZ output coordinates truncated to two decimal places
 //
-[assembly: AssemblyVersion( "2017.0.0.6" )]
-[assembly: AssemblyFileVersion( "2017.0.0.6" )]
+[assembly: AssemblyVersion( "2017.0.0.7" )]
+[assembly: AssemblyFileVersion( "2017.0.0.7" )]

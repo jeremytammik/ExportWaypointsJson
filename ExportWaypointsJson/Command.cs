@@ -9,6 +9,7 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
+using System.Diagnostics;
 #endregion
 
 namespace ExportWaypointsJson
@@ -20,6 +21,9 @@ namespace ExportWaypointsJson
 
     const string _please_select_model_curve = "Please select a single model curve representing the exist path";
 
+    /// <summary>
+    /// Revit selection filter for model curves.
+    /// </summary>
     class CurveSelectionFilter : ISelectionFilter
     {
       public bool AllowElement( Element e )
@@ -30,6 +34,37 @@ namespace ExportWaypointsJson
       public bool AllowReference( Reference r, XYZ p )
       {
         return true;
+      }
+    }
+
+    /// <summary>
+    /// JavaScriptSerializer converter to truncate 
+    /// double XYZ coordinates to two decimal places.
+    /// </summary>
+    class TwoDecimalPlacesConverter : JavaScriptConverter
+    {
+      public override IEnumerable<Type> SupportedTypes
+      {
+        get
+        {
+          return new Type[] { typeof( double )};
+        }
+      }
+
+      public override object Deserialize( 
+        IDictionary<string, object> dictionary,
+        Type type,
+        JavaScriptSerializer serializer )
+      {
+        throw new NotImplementedException();
+      }
+
+      public override IDictionary<string, object> Serialize( 
+        object obj, 
+        JavaScriptSerializer serializer )
+      {
+        Debug.Assert( obj is double, "only support double" );
+        throw new NotImplementedException();
       }
     }
 
@@ -106,6 +141,19 @@ namespace ExportWaypointsJson
       {
         pts.Add( curve.Evaluate( t, false ) );
       }
+
+      JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+      // Register the custom converter to output 
+      // XYZ points truncated to two decimal places.
+
+      // First erroneous attempt; however, cf.
+      // http://stackoverflow.com/questions/12283070/serializing-a-decimal-to-json-how-to-round-off
+      // It will not work.
+
+      serializer.RegisterConverters( 
+        new JavaScriptConverter[] {
+          new TwoDecimalPlacesConverter() } );
 
       string path = Path.Combine( App.Path, _exit_path_filename );
       File.WriteAllText( path, 
