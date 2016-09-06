@@ -11,10 +11,10 @@ namespace ExportWaypointsJson
 {
   class App : IExternalApplication
   {
-    SplitButton sbFarClip;
+    SplitButton split_button;
 
     /// <summary>
-    /// this external application class instance.
+    /// This external application singleton class instance.
     /// </summary>
     internal static App _app = null;
 
@@ -34,7 +34,7 @@ namespace ExportWaypointsJson
       string ass_path = assembly.Location;
       string ass_name = assembly.GetName().Name;
 
-      // create ribbon tab 
+      // Create ribbon tab 
 
       string tab_name = "Export Waypoints";
 
@@ -47,28 +47,27 @@ namespace ExportWaypointsJson
         // Assume error generated is due to tab already existing
       }
 
-      PushButtonData pbSecAdjust = new PushButtonData(
-        "FarSideClip", "Far Clip", ass_path,
-        ass_name + ".SectionFarClipReset" );
+      PushButtonData pbCommand = new PushButtonData(
+        "Export", "Export", ass_path,
+        ass_name + ".Command" );
 
-      PushButtonData pbSecAdjustOpt = new PushButtonData(
-        "FarSideClipOpt", "Settings", ass_path,
-        ass_name + ".SectionFarClipResetOptions" );
+      PushButtonData pbCommandOpt = new PushButtonData(
+        "Settings", "Settings", ass_path,
+        ass_name + ".CmdSettings" );
 
-      pbSecAdjust.LargeImage = NewBitmapImage( assembly,
-        "SplitButtonOptionConcept.FarClip.png" );
+      pbCommand.LargeImage = NewBitmapImage( assembly,
+        "ExportWaypointsJson.iCommand.png" );
 
-      pbSecAdjustOpt.LargeImage = NewBitmapImage( assembly,
-        "SplitButtonOptionConcept.FarClipSetting.png" );
+      pbCommandOpt.LargeImage = NewBitmapImage( assembly,
+        "ExportWaypointsJson.iSettings.png" );
 
-      // add button tips (when data, must be defined prior to adding button.)
+      // Add button tips (when data, must be defined prior to adding button.)
 
-      pbSecAdjust.ToolTip = "Reset a section's far clipping "
-        + "boundary to a close distance.";
+      pbCommand.ToolTip = "Export waypoints to JSON.";
 
-      pbSecAdjust.LongDescription = "Start this command and "
-        + "pick a section line. The far clipping distance "
-        + "will be reset to be close to the line.";
+      pbCommand.LongDescription = "Export exit path "
+        + "guide waypoints to JSON for Hololens "
+        + "visualisation.";
 
       //   Add new ribbon panel. 
 
@@ -79,14 +78,14 @@ namespace ExportWaypointsJson
 
       // add button to ribbon panel
 
-      SplitButtonData sbFarClipData = new SplitButtonData(
+      SplitButtonData split_buttonData = new SplitButtonData(
         "splitFarClip", "FarClip" );
 
-      sbFarClip = thisNewRibbonPanel.AddItem( sbFarClipData )
+      split_button = thisNewRibbonPanel.AddItem( split_buttonData )
         as SplitButton;
 
-      sbFarClip.AddPushButton( pbSecAdjust );
-      sbFarClip.AddPushButton( pbSecAdjustOpt );
+      split_button.AddPushButton( pbCommand );
+      split_button.AddPushButton( pbCommandOpt );
     }
 
     /// <summary>
@@ -122,10 +121,10 @@ namespace ExportWaypointsJson
       _splitButton.CurrentButton = sbList[0];
     }
 
-    public void SetSplitButtonFarClipToTop()
+    public void SetTopButtonCurrent()
     {
-      IList<PushButton> sbList = sbFarClip.GetItems();
-      sbFarClip.CurrentButton = sbList[0];
+      IList<PushButton> sbList = split_button.GetItems();
+      split_button.CurrentButton = sbList[0];
     }
 
 
