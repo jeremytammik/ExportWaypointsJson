@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle( "ExportWaypointsJson" )]
-[assembly: AssemblyDescription( "Revit Add-In Description for ExportWaypointsJson" )]
+[assembly: AssemblyDescription( "A C# .NET Revit add-in to export exit path guide waypoints to JSON for Hololens visualisation" )]
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Autodesk Inc." )]
-[assembly: AssemblyProduct( "ExportWaypointsJson Revit C# .NET Add-In" )]
+[assembly: AssemblyProduct( "ExportWaypointsJson" )]
 [assembly: AssemblyCopyright( "Copyright 2016 (C) Jeremy Tammik, Autodesk Inc." )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
