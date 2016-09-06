@@ -11,6 +11,8 @@ namespace ExportWaypointsJson
 {
   class App : IExternalApplication
   {
+    public const string Caption = "Waypoints";
+
     SplitButton split_button;
 
     /// <summary>
@@ -26,6 +28,23 @@ namespace ExportWaypointsJson
       get { return _app; }
     }
 
+    /// <summary>
+    /// Load a new icon bitmap from embedded resources.
+    /// For the BitmapImage, make sure you reference WindowsBase
+    /// and PresentationCore, and import the System.Windows.Media.Imaging namespace. 
+    /// </summary>
+    BitmapImage NewBitmapImage(
+      System.Reflection.Assembly a,
+      string imageName )
+    {
+      Stream s = a.GetManifestResourceStream( imageName );
+      BitmapImage img = new BitmapImage();
+      img.BeginInit();
+      img.StreamSource = s;
+      img.EndInit();
+      return img;
+    }
+
     void CreateRibbonTab(
       UIControlledApplication a )
     {
@@ -36,7 +55,7 @@ namespace ExportWaypointsJson
 
       // Create ribbon tab 
 
-      string tab_name = "Export Waypoints";
+      string tab_name = Caption;
 
       try
       {
@@ -59,7 +78,7 @@ namespace ExportWaypointsJson
         "ExportWaypointsJson.iCommand.png" );
 
       pbCommandOpt.LargeImage = NewBitmapImage( assembly,
-        "ExportWaypointsJson.iSettings.png" );
+        "ExportWaypointsJson.iCmdSettings.png" );
 
       // Add button tips (when data, must be defined prior to adding button.)
 
@@ -71,7 +90,7 @@ namespace ExportWaypointsJson
 
       //   Add new ribbon panel. 
 
-      string panel_name = "Export Waypoints";
+      string panel_name = Caption;
 
       RibbonPanel thisNewRibbonPanel = a.CreateRibbonPanel(
         tab_name, panel_name );
@@ -86,23 +105,6 @@ namespace ExportWaypointsJson
 
       split_button.AddPushButton( pbCommand );
       split_button.AddPushButton( pbCommandOpt );
-    }
-
-    /// <summary>
-    /// Load a new icon bitmap from embedded resources.
-    /// For the BitmapImage, make sure you reference WindowsBase
-    /// and PresentationCore, and import the System.Windows.Media.Imaging namespace. 
-    /// </summary>
-    BitmapImage NewBitmapImage(
-      System.Reflection.Assembly a,
-      string imageName )
-    {
-      Stream s = a.GetManifestResourceStream( imageName );
-      BitmapImage img = new BitmapImage();
-      img.BeginInit();
-      img.StreamSource = s;
-      img.EndInit();
-      return img;
     }
 
     public void SetSplitButtonToThisOrTop(

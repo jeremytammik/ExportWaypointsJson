@@ -1,14 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RevitAddIns>
-  <AddIn Type="Command">
-    <Text>Command ExportWaypointsJson</Text>
-    <Description>Some description for ExportWaypointsJson</Description>
-    <Assembly>ExportWaypointsJson.dll</Assembly>
-    <FullClassName>ExportWaypointsJson.Command</FullClassName>
-    <ClientId>b33af262-9865-4968-acb8-3e2219872e25</ClientId>
-    <VendorId>com.typepad.thebuildingcoder</VendorId>
-    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
-  </AddIn>
   <AddIn Type="Application">
     <Name>Application ExportWaypointsJson</Name>
     <Assembly>ExportWaypointsJson.dll</Assembly>

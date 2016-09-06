@@ -28,12 +28,15 @@
     /// </summary>
     private void InitializeComponent()
     {
+      this.components = new System.ComponentModel.Container();
       this.label1 = new System.Windows.Forms.Label();
       this.label2 = new System.Windows.Forms.Label();
       this.txtIpAddress = new System.Windows.Forms.TextBox();
       this.txtDistance = new System.Windows.Forms.TextBox();
       this.btnSave = new System.Windows.Forms.Button();
       this.btnCancel = new System.Windows.Forms.Button();
+      this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+      ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
       this.SuspendLayout();
       // 
       // label1
@@ -77,7 +80,7 @@
       this.btnSave.TabIndex = 4;
       this.btnSave.Text = "Save";
       this.btnSave.UseVisualStyleBackColor = true;
-      this.btnSave.Click += new System.EventHandler(this.button1_Click);
+      this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
       // 
       // btnCancel
       // 
@@ -89,10 +92,16 @@
       this.btnCancel.Text = "Cancel";
       this.btnCancel.UseVisualStyleBackColor = true;
       // 
+      // errorProvider1
+      // 
+      this.errorProvider1.ContainerControl = this;
+      // 
       // FormSettings
       // 
+      this.AcceptButton = this.btnSave;
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.CancelButton = this.btnCancel;
       this.ClientSize = new System.Drawing.Size(264, 107);
       this.Controls.Add(this.btnCancel);
       this.Controls.Add(this.btnSave);
@@ -104,6 +113,7 @@
       this.MaximizeBox = false;
       this.Name = "FormSettings";
       this.Text = "Waypoint Settings";
+      ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -117,5 +127,6 @@
     private System.Windows.Forms.TextBox txtDistance;
     private System.Windows.Forms.Button btnSave;
     private System.Windows.Forms.Button btnCancel;
+    private System.Windows.Forms.ErrorProvider errorProvider1;
   }
 }
