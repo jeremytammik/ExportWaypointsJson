@@ -24,7 +24,9 @@ namespace ExportWaypointsJson
 
     const string _exit_path_filename = "exitpath.json";
 
-    const string _please_select_model_curve = "Please select a single model curve representing the exist path";
+    const string _please_select_model_curve = "Please "
+      + "select a single model curve representing the "
+      + "exit path";
 
     /// <summary>
     /// Revit selection filter for model curves.
@@ -97,7 +99,10 @@ namespace ExportWaypointsJson
 
       Curve curve = model_curve.GeometryCurve;
 
-      // Tessellate returns 377 points for our sample spline curve.
+      // Tessellate returns 377 points for our sample 
+      // spline curve. We need a way to control the 
+      // number of points returned, and the distance 
+      // between them.
       //IList<XYZ> pts = curve.Tessellate();
 
       double length = curve.ApproximateLength;
@@ -147,17 +152,16 @@ namespace ExportWaypointsJson
         }
       }
 
-      // Register the custom converter to output 
-      // XYZ points truncated to two decimal places.
-
-      // First erroneous attempt; however, cf.
+      // Attempt to register a custom converter to 
+      // output XYZ point coordinates truncated to 
+      // two decimal places. This does not work, cf.
       // http://stackoverflow.com/questions/12283070/serializing-a-decimal-to-json-how-to-round-off
-      // It will not work.
-
       //JavaScriptSerializer serializer = new JavaScriptSerializer();
       //serializer.RegisterConverters( 
       //  new JavaScriptConverter[] {
       //    new TwoDecimalPlacesConverter() } );
+      // Instead, we implemented XyzInMetres and 
+      // created a wokring solution.
 
       string path = Path.Combine( App.Path, 
         _exit_path_filename );

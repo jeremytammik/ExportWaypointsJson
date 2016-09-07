@@ -48,6 +48,8 @@ using System.Runtime.InteropServices;
 // 2016-09-06 2017.0.0.7 first erroneous attempt to serialise XYZ output coordinates truncated to two decimal places
 // 2016-09-06 2017.0.0.8 implemented XyzInMetres with two-digit coordinates
 // 2016-09-06 2017.0.0.9 implemented waypoint text note markers
+// 2016-09-07 2017.0.0.10 reduced option settings icon from 32x32 to 16x16
+// 2016-09-07 2017.0.0.10 removed unused method
 //
-[assembly: AssemblyVersion( "2017.0.0.9" )]
-[assembly: AssemblyFileVersion( "2017.0.0.9" )]
+[assembly: AssemblyVersion( "2017.0.0.10" )]
+[assembly: AssemblyFileVersion( "2017.0.0.10" )]

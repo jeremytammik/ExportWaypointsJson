@@ -121,22 +121,12 @@ namespace ExportWaypointsJson
       split_button.AddPushButton( pbCommandOpt );
     }
 
-    public void SetSplitButtonToThisOrTop(
-      string _bName,
-      SplitButton _splitButton )
-    {
-      IList<PushButton> sbList = _splitButton.GetItems();
-      foreach( PushButton pb in sbList )
-      {
-        if( pb.Name.Equals( _bName ) )
-        {
-          _splitButton.CurrentButton = pb;
-          return;
-        }
-      }
-      _splitButton.CurrentButton = sbList[0];
-    }
-
+    /// <summary>
+    /// Reset the top button to be the current one.
+    /// Alternative solution: 
+    /// set RibbonItem.IsSynchronizedWithCurrentItem 
+    /// to false after creating the SplitButton.
+    /// </summary>
     public void SetTopButtonCurrent()
     {
       IList<PushButton> sbList = split_button.GetItems();
