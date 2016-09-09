@@ -1,11 +1,9 @@
 #region Namespaces
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Autodesk.Revit.UI;
 using System.Windows.Media.Imaging;
 using System.IO;
-using System.Web.Script.Serialization;
 #endregion
 
 namespace ExportWaypointsJson
@@ -17,7 +15,8 @@ namespace ExportWaypointsJson
     SplitButton split_button;
 
     /// <summary>
-    /// This external application singleton class instance.
+    /// This external application 
+    /// singleton class instance.
     /// </summary>
     internal static App _app = null;
 
@@ -44,8 +43,9 @@ namespace ExportWaypointsJson
     #region Create Ribbon Tab
     /// <summary>
     /// Load a new icon bitmap from embedded resources.
-    /// For the BitmapImage, make sure you reference WindowsBase
-    /// and PresentationCore, and import the System.Windows.Media.Imaging namespace. 
+    /// For the BitmapImage, make sure you reference 
+    /// WindowsBase and PresentationCore, and import 
+    /// the System.Windows.Media.Imaging namespace. 
     /// </summary>
     BitmapImage NewBitmapImage(
       System.Reflection.Assembly a,
@@ -77,7 +77,7 @@ namespace ExportWaypointsJson
       }
       catch( Autodesk.Revit.Exceptions.ArgumentException )
       {
-        // Assume error generated is due to tab already existing
+        // Assume error is due to tab already existing
       }
 
       PushButtonData pbCommand = new PushButtonData(
@@ -94,7 +94,8 @@ namespace ExportWaypointsJson
       pbCommandOpt.LargeImage = NewBitmapImage( assembly,
         "ExportWaypointsJson.iCmdSettings.png" );
 
-      // Add button tips (when data, must be defined prior to adding button.)
+      // Add button tips (when data, must be 
+      // defined prior to adding button.)
 
       pbCommand.ToolTip = "Export waypoints to JSON.";
 
@@ -111,11 +112,12 @@ namespace ExportWaypointsJson
 
       // add button to ribbon panel
 
-      SplitButtonData split_buttonData = new SplitButtonData(
-        "splitFarClip", "FarClip" );
+      SplitButtonData split_buttonData
+        = new SplitButtonData(
+          "splitFarClip", "FarClip" );
 
-      split_button = thisNewRibbonPanel.AddItem( split_buttonData )
-        as SplitButton;
+      split_button = thisNewRibbonPanel.AddItem( 
+        split_buttonData ) as SplitButton;
 
       split_button.AddPushButton( pbCommand );
       split_button.AddPushButton( pbCommandOpt );

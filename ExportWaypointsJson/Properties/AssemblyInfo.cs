@@ -50,6 +50,7 @@ using System.Runtime.InteropServices;
 // 2016-09-06 2017.0.0.9 implemented waypoint text note markers
 // 2016-09-07 2017.0.0.10 reduced option settings icon from 32x32 to 16x16
 // 2016-09-07 2017.0.0.10 removed unused method
+// 2016-09-07 2017.0.0.11 cleanup for publication
 //
-[assembly: AssemblyVersion( "2017.0.0.10" )]
-[assembly: AssemblyFileVersion( "2017.0.0.10" )]
+[assembly: AssemblyVersion( "2017.0.0.11" )]
+[assembly: AssemblyFileVersion( "2017.0.0.11" )]
